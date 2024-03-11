@@ -10,12 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.SQLException;
 
 public class StartController {
     public TextField enterId;
     public Button startButton;
-    public Button registrationButton;
 
     private JDBCCommands jdbcCommands = new JDBCCommands();
 
@@ -23,11 +22,13 @@ public class StartController {
     }
 
     @FXML
-    public void clickStart() throws SQLException {
+    public void clickStart() {
         String enteredId = enterId.getText();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("meterInvoices.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/electricitybilling/meterInvoices.fxml"));
+            System.out.println("good");
             Parent root = loader.load();
+            System.out.println("good2");
             Stage currentStage = (Stage) startButton.getScene().getWindow();
             currentStage.close();
             MeterInvoicesController workController = loader.getController();
@@ -35,12 +36,12 @@ public class StartController {
 
             Stage workStage = new Stage();
             workStage.setTitle("Invoices Window");
-            workStage.setScene(new Scene(root, 1000, 700));
+            workStage.setScene(new Scene(root, 800, 600));
             workStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        }
+    }
 
 }
 

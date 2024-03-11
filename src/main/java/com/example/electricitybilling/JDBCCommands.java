@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class JDBCCommands {
 
-    private Connection connection;
+    private final Connection connection;
 
     public JDBCCommands() throws SQLException, IOException {
         Properties properties = new Properties();
@@ -22,7 +22,7 @@ public class JDBCCommands {
         connection = DriverManager.getConnection(url, username, password);
     }
 
-    public boolean checkLichilnik (String meterId) throws SQLException {
+    public boolean checkLichilnik (String meterId) {
             try {
                 String query = "SELECT COUNT(*) FROM Invoices WHERE meter_number = ?";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

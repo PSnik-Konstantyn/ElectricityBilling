@@ -6,9 +6,35 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.electricitybilling.Controllers.MeterInvoicesController"
             prefHeight="400.0" prefWidth="600.0">
+
+    <stylesheets>
+        <URL value="@bill.css"/>
+    </stylesheets>
+
+    <HBox prefWidth="600.0" spacing="20.0" layoutX="150.0" layoutY="150.0">
+        <Label text="Номер лічильника: " />
+        <Label fx:id="meterNumberLabel" />
+        <Label layoutX="450.0" text="Сума для сплати: " />
+        <Label layoutX="470.0" fx:id="amountToPayLabel" />
+    </HBox>
+
+
+    <HBox prefWidth="600.0" spacing="20.0" layoutX="140.0" layoutY="200.0">
+        <DatePicker fx:id="datePicker" />
+        <Label text="Днівні КВ: " />
+        <TextField fx:id="dayKwhTextField" />
+        <Label text="Нічні КВ: " />
+        <TextField fx:id="nightKwhTextField" />
+    </HBox>
+
+    <HBox prefWidth="600.0" spacing="20.0" layoutX="250.0" layoutY="250.0">
+        <Button text="Внести дані" onAction="#enterData" />
+        <Button text="Сплатити" onAction="#pay" />
+    </HBox>
 
 </AnchorPane>
