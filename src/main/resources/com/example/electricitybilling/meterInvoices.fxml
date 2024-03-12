@@ -13,7 +13,7 @@
             prefHeight="400.0" prefWidth="600.0">
 
     <stylesheets>
-        <URL value="@bill.css"/>
+        <URL value="@css/bill.css"/>
     </stylesheets>
 
     <HBox prefWidth="600.0" spacing="20.0" layoutX="150.0" layoutY="150.0">

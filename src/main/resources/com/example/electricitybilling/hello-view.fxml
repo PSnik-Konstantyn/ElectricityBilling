@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.electricitybilling.Controllers.StartController">
   <stylesheets>
-    <URL value="@styles.css" />
+    <URL value="@css/styles.css" />
   </stylesheets>
     <Label layoutX="230.0" layoutY="190.0" text="Введіть номер лічильника" textAlignment="CENTER">
       <opaqueInsets>

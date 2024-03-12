@@ -22,9 +22,7 @@ public class StartController {
         String enteredId = enterId.getText();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/electricitybilling/meterInvoices.fxml"));
-            System.out.println("good");
             Parent root = loader.load();
-            System.out.println("good2");
             Stage currentStage = (Stage) startButton.getScene().getWindow();
             currentStage.close();
             MeterInvoicesController workController = loader.getController();
