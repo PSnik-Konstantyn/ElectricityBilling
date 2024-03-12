@@ -1,5 +1,6 @@
 package com.example.electricitybilling.Controllers;
 
+import com.example.electricitybilling.JDBCCommands;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
@@ -8,18 +9,20 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class MeterInvoicesController {
 
 
-    public MeterInvoicesController(String meterId, int moneyCounter) {
+    public MeterInvoicesController(String meterId, int moneyCounter) throws SQLException, IOException {
         this.meterId = meterId;
         this.moneyCounter = moneyCounter;
     }
 
-    public MeterInvoicesController() {
+    public MeterInvoicesController() throws SQLException, IOException {
 
     }
+
 
     public Label meterNumberLabel;
     public Label amountToPayLabel;
@@ -45,10 +48,14 @@ public class MeterInvoicesController {
         this.meterId = meterId;
     }
 
+    private final JDBCCommands jdbcCommands = new JDBCCommands();
+
     @FXML
-    public void initial(Stage stage, String meterId) throws IOException {
-        amountToPayLabel.setText("100$");
-        meterNumberLabel.setText("100-12da");
+    public void initial(String meterId) throws IOException {
+        double billAmount = jdbcCommands.findAmountToPay(meterId);
+        amountToPayLabel.setText(billAmount + " $");
+        meterNumberLabel.setText(meterId);
+
     }
 
     public void enterData(ActionEvent actionEvent) {
