@@ -11,23 +11,15 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 
 public class MeterInvoicesController {
 
-
-    public MeterInvoicesController(String meterId, int moneyCounter) throws SQLException, IOException {
-        this.meterId = meterId;
-        this.moneyCounter = moneyCounter;
-    }
-
     public MeterInvoicesController() throws SQLException, IOException {
 
     }
-
 
     public Label meterNumberLabel;
     public Label amountToPayLabel;
@@ -58,9 +50,10 @@ public class MeterInvoicesController {
     @FXML
     public void initial(String meterId) throws IOException {
         double billAmount = jdbcCommands.findAmountToPay(meterId);
-        amountToPayLabel.setText(billAmount + " $");
+        amountToPayLabel.setText(billAmount + " ₴");
         meterNumberLabel.setText(meterId);
         this.meterId = meterId;
+        this.moneyCounter = billAmount;
     }
 
     public void enterData(ActionEvent actionEvent) {
@@ -93,6 +86,27 @@ public class MeterInvoicesController {
 
     }
 
-    public void pay(ActionEvent actionEvent) {
+    public void pay(ActionEvent actionEvent) throws IOException {
+
+        jdbcCommands.payBill(meterId, moneyCounter);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/electricitybilling/meterInvoices.fxml"));
+        Parent root = loader.load();
+        Stage currentStage = (Stage) meterNumberLabel.getScene().getWindow();
+        currentStage.close();
+        MeterInvoicesController workController = loader.getController();
+        workController.initial(meterId);
+
+        Stage workStage = new Stage();
+        workStage.setTitle("Invoices Window");
+        workStage.setScene(new Scene(root, 800, 600));
+        workStage.show();
+    }
+
+    public void zvit(ActionEvent actionEvent) throws IOException {
+        String pdfFilePath = "/home/kostiantyn/IdeaProjects/ElectricityBilling/zvit.pdf";
+        jdbcCommands.createZvitPDF(meterId);
+
+        Runtime.getRuntime().exec("xdg-open " + pdfFilePath);
     }
 }

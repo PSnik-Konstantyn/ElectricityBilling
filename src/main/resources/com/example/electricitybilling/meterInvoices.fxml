@@ -26,7 +26,7 @@
 
     <HBox prefWidth="600.0" spacing="20.0" layoutX="140.0" layoutY="200.0">
         <DatePicker fx:id="datePicker" />
-        <Label text="Дневні КВ: " />
+        <Label text="Денні КВ: " />
         <TextField fx:id="dayKwhTextField" />
         <Label text="Нічні КВ: " />
         <TextField fx:id="nightKwhTextField" />
@@ -35,6 +35,7 @@
     <HBox prefWidth="600.0" spacing="20.0" layoutX="250.0" layoutY="250.0">
         <Button text="Внести дані" onAction="#enterData" />
         <Button text="Сплатити" onAction="#pay" />
+        <Button text="Історія платежів" onAction="#zvit" />
     </HBox>
 
 </AnchorPane>
