@@ -1,7 +1,6 @@
 package com.example.electricitybilling.Controllers;
 
 import com.example.electricitybilling.JDBCCommands;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,22 +28,6 @@ public class MeterInvoicesController {
     private String meterId;
     private double moneyCounter;
 
-    public String getMeterId() {
-        return meterId;
-    }
-
-    public void setMeterId(String meterId) {
-        this.meterId = meterId;
-    }
-
-    public double getMoneyCounter() {
-        return moneyCounter;
-    }
-
-    public void setMoneyCounter(double moneyCounter) {
-        this.moneyCounter = moneyCounter;
-    }
-
     private final JDBCCommands jdbcCommands = new JDBCCommands();
 
     @FXML
@@ -56,7 +39,7 @@ public class MeterInvoicesController {
         this.moneyCounter = billAmount;
     }
 
-    public void enterData(ActionEvent actionEvent) {
+    public void enterData() {
         try {
             double dayKwh = Double.parseDouble(dayKwhTextField.getText());
             double nightKwh = Double.parseDouble(nightKwhTextField.getText());
@@ -86,7 +69,7 @@ public class MeterInvoicesController {
 
     }
 
-    public void pay(ActionEvent actionEvent) throws IOException {
+    public void pay() throws IOException {
 
         jdbcCommands.payBill(meterId, moneyCounter);
 
@@ -103,7 +86,7 @@ public class MeterInvoicesController {
         workStage.show();
     }
 
-    public void zvit(ActionEvent actionEvent) throws IOException {
+    public void zvit() throws IOException {
         String pdfFilePath = "/home/kostiantyn/IdeaProjects/ElectricityBilling/zvit.pdf";
         jdbcCommands.createZvitPDF(meterId);
 

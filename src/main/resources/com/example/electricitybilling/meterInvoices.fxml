@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import java.net.URL?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.electricitybilling.Controllers.MeterInvoicesController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.electricitybilling.Controllers.MeterInvoicesController">
 
     <stylesheets>
-        <URL value="@css/bill.css"/>
+        <URL value="@css/bill.css" />
     </stylesheets>
 
-    <HBox prefWidth="600.0" spacing="20.0" layoutX="150.0" layoutY="150.0">
-        <Label text="Номер лічильника: " />
+    <HBox layoutX="186.0" layoutY="127.0" prefHeight="38.0" prefWidth="454.0" spacing="20.0">
+        <Label text="Номер лічильника: ">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
         <Label fx:id="meterNumberLabel" />
-        <Label layoutX="450.0" text="Сума для сплати: " />
-        <Label layoutX="470.0" fx:id="amountToPayLabel" />
+        <Label layoutX="450.0" text="Сума для сплати: ">
+         <font>
+            <Font size="16.0" />
+         </font></Label>
+        <Label fx:id="amountToPayLabel" layoutX="470.0" />
     </HBox>
 
 
-    <HBox prefWidth="600.0" spacing="20.0" layoutX="140.0" layoutY="200.0">
+    <HBox layoutX="75.0" layoutY="200.0" prefWidth="600.0" spacing="20.0">
         <DatePicker fx:id="datePicker" />
         <Label text="Денні КВ: " />
         <TextField fx:id="dayKwhTextField" />
@@ -32,10 +33,10 @@
         <TextField fx:id="nightKwhTextField" />
     </HBox>
 
-    <HBox prefWidth="600.0" spacing="20.0" layoutX="250.0" layoutY="250.0">
-        <Button text="Внести дані" onAction="#enterData" />
-        <Button text="Сплатити" onAction="#pay" />
-        <Button text="Історія платежів" onAction="#zvit" />
+    <HBox layoutX="150.0" layoutY="257.0" prefWidth="600.0" spacing="20.0">
+        <Button onAction="#enterData" text="Внести дані" />
+        <Button onAction="#pay" text="Сплатити" />
+        <Button onAction="#zvit" text="Історія платежів" />
     </HBox>
 
 </AnchorPane>

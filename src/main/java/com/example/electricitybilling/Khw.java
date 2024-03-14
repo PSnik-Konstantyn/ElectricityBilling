@@ -8,16 +8,8 @@ public class Khw {
         return dayKhw;
     }
 
-    public void setDayKhw(double dayKhw) {
-        this.dayKhw = dayKhw;
-    }
-
     public double getNightKhw() {
         return nightKhw;
-    }
-
-    public void setNightKhw(double nightKhw) {
-        this.nightKhw = nightKhw;
     }
 
     public Khw(double dayKhw, double nightKhw) {

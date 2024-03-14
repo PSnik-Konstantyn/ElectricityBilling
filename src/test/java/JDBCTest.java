@@ -21,9 +21,15 @@ public class JDBCTest {
         Date latestDate = Date.valueOf("2024-01-01");
         Date nDate = Date.valueOf("2024-05-01");
         jdbcCommands.addNewKwh("test", 100, 50, latestDate );
-        jdbcCommands.addNewKwh("test", 500, 500, nDate );
 
         Khw checkKhw = jdbcCommands.getTheNewestKhw("test");
+
+        assertEquals(checkKhw.getDayKhw(), 100);
+        assertEquals(checkKhw.getNightKhw(), 50);
+
+        jdbcCommands.addNewKwh("test", 500, 500, nDate );
+
+        checkKhw = jdbcCommands.getTheNewestKhw("test");
 
         assertEquals(checkKhw.getDayKhw(), 500);
         assertEquals(checkKhw.getNightKhw(), 500);

@@ -12,15 +12,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Properties;
 
 public class JDBCCommands {
 
     private final Connection connection;
-    private double pricePerKwhDay;
-    private double pricePerKwhNight;
-    private double nakrutkaDay;
-    private double nakrutkaNight;
+    private final double pricePerKwhDay;
+    private final double pricePerKwhNight;
+    private final double nakrutkaDay;
+    private final double nakrutkaNight;
     private double dayKhwNotPaid;
     private double nightKhwNotPaid;
 
@@ -103,14 +104,20 @@ public class JDBCCommands {
 
             amountToPay = needToPayDay * pricePerKwhDay + needToPayNight * pricePerKwhNight;
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Інформація про рахунок");
-            alert.setHeaderText("Ваша остання дата платежу: " + lastPaidDate + "!\n" +
-                    "За цей час ви використали:\n" +
-                    "Денних КВ: " + needToPayDay + "\n" +
-                    "Нічних КВ: " + needToPayNight);
-            alert.showAndWait();
-
+            if (Objects.equals(lastPaidDate, Date.valueOf("1970-01-01"))) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Інформація про рахунок");
+                alert.setHeaderText("Ви ще не оплачували рахунків!");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Інформація про рахунок");
+                alert.setHeaderText("Ваша остання дата платежу: " + lastPaidDate + "!\n" +
+                        "За цей час ви використали:\n" +
+                        "Денних КВ: " + needToPayDay + "\n" +
+                        "Нічних КВ: " + needToPayNight);
+                alert.showAndWait();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -132,10 +139,10 @@ public class JDBCCommands {
             }
 
             if (!billDate.after(latestDate)) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Оберіть іншу дату!");
-                alert.setHeaderText("Найновіший запис вже існує для цього лічильника. Оберіть іншу дату");
-                alert.showAndWait();
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setTitle("Оберіть іншу дату!");
+//                alert.setHeaderText("Найновіший запис вже існує для цього лічильника. Оберіть іншу дату");
+//                alert.showAndWait();
             } else {
                 String sql = "SELECT day_kwh, night_kwh FROM Invoices WHERE meter_number = ? ORDER BY date DESC LIMIT 1";
                 PreparedStatement statement = connection.prepareStatement(sql);
@@ -155,11 +162,11 @@ public class JDBCCommands {
                     if (latestNightKwh > nightKwh) {
                         nightKwh = latestNightKwh + nakrutkaNight;
                     }
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Жах!");
-                    alert.setHeaderText("Ви намагались ввести несправжні дати, за це вам накручено такі дані\n" +
-                            "Денні КВ: " + dayKwh + "\nНічні КВ: " + nightKwh);
-                    alert.showAndWait();
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                    alert.setTitle("Жах!");
+//                    alert.setHeaderText("Ви намагались ввести несправжні дати, за це вам накручено такі дані\n" +
+//                            "Денні КВ: " + dayKwh + "\nНічні КВ: " + nightKwh);
+//                    alert.showAndWait();
                 }
                 String insertQuery = "INSERT INTO Invoices (meter_number, day_kwh, night_kwh, date, was_paid) VALUES (?, ?, ?, ?, false)";
                 PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
@@ -169,10 +176,10 @@ public class JDBCCommands {
                 insertStatement.setDate(4, new java.sql.Date(billDate.getTime()));
                 insertStatement.executeUpdate();
 
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Перемога!");
-                alert.setHeaderText("Дані оновлено!");
-                alert.showAndWait();
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setTitle("Перемога!");
+//                alert.setHeaderText("Дані оновлено!");
+//                alert.showAndWait();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -186,7 +193,7 @@ public class JDBCCommands {
             getLastPaidDateStatement.setString(1, meterId);
             ResultSet lastPaidDateResult = getLastPaidDateStatement.executeQuery();
 
-            Date latestDate = null;
+            Date latestDate;
             if (lastPaidDateResult.next()) {
                 latestDate = lastPaidDateResult.getDate(1);
                 String markAsPaidQuery = "UPDATE Invoices SET was_paid = true WHERE meter_number = ? AND date = ?";
@@ -367,8 +374,7 @@ public class JDBCCommands {
             latestDayKwh = latestUsageResult.getDouble(1);
             latestNightKwh = latestUsageResult.getDouble(2);
         }
-        Khw bills = new Khw(latestDayKwh,latestNightKwh);
-        return bills;
+        return new Khw(latestDayKwh,latestNightKwh);
     }
 
 }
